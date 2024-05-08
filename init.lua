@@ -161,8 +161,8 @@ vim.opt.scrolloff = 10
 
 vim.keymap.set('n', 'zi', '<C-w>_| <C-w>|', { desc = 'Maximize current split' })
 vim.keymap.set('n', 'zo', '<C-w>=', { desc = 'Equalize split sizes' })
-vim.keymap.set('v', '<leader>y', '"*y', { desc = 'Yank to system clipboard' })
-vim.keymap.set('n', '<leader>p', '"*p', { desc = 'Paste from system clipboard' })
+vim.keymap.set('v', '<leader>y', '"+y', { desc = 'Yank to system clipboard' })
+vim.keymap.set('n', '<leader>p', '"+p', { desc = 'Paste from system clipboard' })
 
 -- Set jk as a quick escape from insert mode
 vim.keymap.set('i', 'jk', '<Esc>')
