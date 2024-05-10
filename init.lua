@@ -274,6 +274,7 @@ require('lazy').setup({
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   'tpope/vim-fugitive', -- Better Git integration
+  'tpope/vim-rhubarb', -- Open in GitHub
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -355,6 +356,7 @@ require('lazy').setup({
       require('which-key').register {
         ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
         ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+        ['<leader>dt'] = { name = '[D]ocument [T]ests', _ = 'which_key_ignore' },
         ['<leader>f'] = { name = '[F]ile Functions', _ = 'which_key_ignore' },
         ['<leader>g'] = { name = '[G]it Functions', _ = 'which_key_ignore' },
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
@@ -367,6 +369,15 @@ require('lazy').setup({
       require('which-key').register({
         ['<leader>h'] = { 'Git [H]unk' },
       }, { mode = 'v' })
+    end,
+  },
+
+  {
+    'vim-test/vim-test',
+    config = function()
+      vim.keymap.set('n', '<space>dtf', ':TestFile<CR>', { desc = '[D]ocument [T]est [F]ile' })
+      vim.keymap.set('n', '<space>dtn', ':TestNearest<CR>', { desc = '[D]ocument [T]est [N]earest' })
+      vim.keymap.set('n', '<space>dtl', ':TestLast<CR>', { desc = '[D]ocument [T]est [L]ast' })
     end,
   },
 
@@ -645,7 +656,13 @@ require('lazy').setup({
           -- This may be unwanted, since they displace some of your code
           if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
             map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+              vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+
+              if vim.diagnostic.is_disabled() then
+                vim.diagnostic.enable()
+              else
+                vim.diagnostic.disable()
+              end
             end, '[T]oggle Inlay [H]ints')
           end
         end,
